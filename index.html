@@ -1,106 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CryptoMind AI</title>
+  <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
-}
+      <title>CryptoMind AI</title>
 
-body{
-background:#0b1220;
-color:white;
-padding:20px;
-}
+        <link rel="stylesheet" href="style.css">
+        </head>
 
-h1{
-text-align:center;
-color:#22c55e;
-margin-bottom:8px;
-}
+        <body>
 
-.sub{
-text-align:center;
-color:#94a3b8;
-margin-bottom:25px;
-}
+        <header class="topo">
+            <h1>🧠 CryptoMind AI</h1>
+                <p>Plataforma Inteligente para Análise de Criptomoedas</p>
+                </header>
 
-.card{
-background:#1e293b;
-border-radius:16px;
-padding:18px;
-margin-bottom:15px;
-}.valor{
-font-size:32px;
-font-weight:bold;
-color:#22c55e;
-margin-top:10px;
-}
+                <main class="container">
 
-.moeda{
-display:flex;
-justify-content:space-between;
-padding:12px 0;
-border-bottom:1px solid #334155;
-}
+                <section class="card">
 
-.moeda:last-child{
-border-bottom:none;
-}
+                <h2>💼 Minha Carteira</h2>
 
-.score{
-background:#22c55e;
-color:#000;
-padding:3px 10px;
-border-radius:20px;
-font-weight:bold;
-}
+                <div id="valorTotal">
+                Carregando...
+                </div>
 
-footer{
-text-align:center;
-margin-top:30px;
-color:#64748b;
-}
-</style>
-</head>
+                </section>
 
-<body>
+                <section class="card">
 
-<h1>🧠 CryptoMind AI</h1>
-<p class="sub">Plataforma inteligente para análise de criptomoedas</p>
+                <h2>📈 Meus Ativos</h2>
 
-<div class="card">
-<h2>💼 Minha Carteira</h2>
-<div class="valor">Conectando...</div>
-</div><div class="card">
-<h2>📈 Ativos</h2>
+                <div id="listaAtivos">
 
-<div class="moeda"><span>ADA</span><span class="score">74</span></div>
-<div class="moeda"><span>DOT</span><span class="score">79</span></div>
-<div class="moeda"><span>LINK</span><span class="score">83</span></div>
-<div class="moeda"><span>NEAR</span><span class="score">76</span></div>
-<div class="moeda"><span>AR</span><span class="score">81</span></div>
-<div class="moeda"><span>ONE</span><span class="score">61</span></div>
-<div class="moeda"><span>RACA</span><span class="score">70</span></div>
+                </div>
 
-</div>
+                </section>
 
-<div class="card">
-<h2>🤖 CryptoMind Score</h2>
-<div class="valor">86/100</div>
-</div>
+                <section class="card">
 
-<footer>
-Versão 0.3 • CryptoMind AI
-</footer>
-<script>
-    console.log("CryptoMind AI iniciado.");
-    </script>
-</body>
-</html>
+                <h2>🤖 CryptoMind Score</h2>
+
+                <div id="score">
+
+                86/100
+
+                </div>
+
+                </section>
+
+                </main>
+
+                <footer>
+
+                CryptoMind AI © 2026
+
+                </footer>
+
+                <script src="app.js"></script>
+
+                </body>
+
+                </html>
