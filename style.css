@@ -1,74 +1,74 @@
-* {
-      margin: 0;
-        padding: 0;
-          box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-            }
+*{
+        margin:0;
+            padding:0;
+                box-sizing:border-box;
+                    font-family:Arial, Helvetica, sans-serif;
+                    }
 
-            body {
-              background: #0f172a;
-                color: #fff;
-                }
-
-                .topo {
-                  background: #1e293b;
-                    padding: 25px;
-                      text-align: center;
-                        border-bottom: 2px solid #22c55e;
-                        }
-
-                        .topo h1 {
-                          font-size: 2rem;
-                            color: #22c55e;
+                    body{
+                        background:#0f172a;
+                            color:#fff;
                             }
 
-                            .topo p {
-                              margin-top: 8px;
-                                color: #cbd5e1;
-                                }
+                            .topo{
+                                background:#1e293b;
+                                    text-align:center;
+                                        padding:25px;
+                                            border-bottom:3px solid #22c55e;
+                                            }
 
-                                .container {
-                                  max-width: 900px;
-                                    margin: 30px auto;
-                                      padding: 20px;
-                                      }
-
-                                      .card {
-                                        background: #1e293b;
-                                          padding: 20px;
-                                            border-radius: 12px;
-                                              margin-bottom: 20px;
-                                                box-shadow: 0 0 15px rgba(0,0,0,.25);
-                                                }
-
-                                                .card h2 {
-                                                  margin-bottom: 15px;
-                                                    color: #22c55e;
-                                                    }
-
-                                                    #valorTotal,
-                                                    #score {
-                                                      font-size: 2rem;
-                                                        font-weight: bold;
+                                            .topo h1{
+                                                color:#22c55e;
+                                                    font-size:32px;
+                                                        margin-bottom:10px;
                                                         }
 
-                                                        #listaAtivos {
-                                                          display: flex;
-                                                            flex-direction: column;
-                                                              gap: 10px;
-                                                              }
+                                                        .topo p{
+                                                            color:#cbd5e1;
+                                                            }
 
-                                                              .ativo {
-                                                                display: flex;
-                                                                  justify-content: space-between;
-                                                                    padding: 12px;
-                                                                      background: #334155;
-                                                                        border-radius: 8px;
+                                                            .container{
+                                                                width:90%;
+                                                                    max-width:900px;
+                                                                        margin:30px auto;
                                                                         }
 
-                                                                        footer {
-                                                                          text-align: center;
-                                                                            padding: 20px;
-                                                                              color: #94a3b8;
-                                                                              }
+                                                                        .card{
+                                                                            background:#1e293b;
+                                                                                border-radius:12px;
+                                                                                    padding:20px;
+                                                                                        margin-bottom:20px;
+                                                                                            box-shadow:0 0 15px rgba(0,0,0,.25);
+                                                                                            }
+
+                                                                                            .card h2{
+                                                                                                color:#22c55e;
+                                                                                                    margin-bottom:15px;
+                                                                                                    }
+
+                                                                                                    #valorCarteira{
+                                                                                                        font-size:32px;
+                                                                                                            font-weight:bold;
+                                                                                                            }
+
+                                                                                                            #score{
+                                                                                                                font-size:28px;
+                                                                                                                    font-weight:bold;
+                                                                                                                        color:#22c55e;
+                                                                                                                        }
+
+                                                                                                                        .ativo{
+                                                                                                                            display:flex;
+                                                                                                                                justify-content:space-between;
+                                                                                                                                    padding:12px;
+                                                                                                                                        margin:8px 0;
+                                                                                                                                            background:#334155;
+                                                                                                                                                border-radius:8px;
+                                                                                                                                                }
+
+                                                                                                                                                footer{
+                                                                                                                                                    text-align:center;
+                                                                                                                                                        padding:20px;
+                                                                                                                                                            color:#94a3b8;
+                                                                                                                                                            }
 }
