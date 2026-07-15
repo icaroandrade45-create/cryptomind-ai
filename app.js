@@ -259,3 +259,17 @@ async function carregarCarteira(userId) {
     } catch (erro) { console.error(erro); }
 }
 verificarUsuario();
+async function buscarTopCriptos() {
+
+        const resposta = await fetch(
+                "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false"
+                    );
+
+                        const moedas = await resposta.json();
+
+                            console.log("Top moedas:", moedas);
+
+                            }
+
+                            buscarTopCriptos();
+}
