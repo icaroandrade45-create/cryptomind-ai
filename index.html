@@ -1,59 +1,72 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoMind AI</title>
+    <title>CryptoMind AI - Plataforma Profissional</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <div class="logo-area">
+                <span class="logo-emoji">🧠</span>
+                <h1>CryptoMind AI</h1>
+            </div>
+            <p class="subtitle">Plataforma Inteligente para Análise de Criptomoedas</p>
+            <button id="btnSair" class="btn-secondary" style="display: none;">Sair da Conta</button>
+        </header>
 
-<header class="topo">
-    <h1>🧠 CryptoMind AI</h1>
-    <p>Plataforma Inteligente para Análise de Criptomoedas</p>
-    <button id="btnSair" style="display: none; margin: 15px auto; background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">Sair da Conta</button>
-</header>
+        <section id="areaAuth" class="card auth-card">
+            <h2>🔑 Acessar Minha Carteira</h2>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Seu e-mail">
+            </div>
+            <div class="input-group">
+                <input type="password" id="senha" placeholder="Sua senha (mínimo 6 caracteres)">
+            </div>
+            <div class="button-group">
+                <button id="btnEntrar" class="btn-primary">Entrar</button>
+                <button id="btnCadastrar" class="btn-success">Criar Nova Conta</button>
+            </div>
+            <p id="msgAuth" class="feedback-msg"></p>
+        </section>
 
-<main class="container">
-
-    <section class="card" id="areaAuth">
-        <h2 id="tituloAuth">🔐 Acessar Minha Carteira</h2>
-        
-        <div id="formAuth" style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
-            <input type="email" id="email" placeholder="Seu e-mail" style="padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: #1a1f2c; color: white; width: 100%; box-sizing: border-box;">
-            <input type="password" id="senha" placeholder="Sua senha (mínimo 6 caracteres)" style="padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: #1a1f2c; color: white; width: 100%; box-sizing: border-box;">
+        <section id="areaCarteira" style="display: none;">
             
-            <button id="btnEntrar" style="padding: 12px; border-radius: 6px; border: none; background: #3b82f6; color: white; font-weight: bold; cursor: pointer;">Entrar</button>
-            <button id="btnCadastrar" style="padding: 12px; border-radius: 6px; border: none; background: #10b981; color: white; font-weight: bold; cursor: pointer;">Criar Nova Conta</button>
-        </div>
-        <p id="msgAuth" style="margin-top: 15px; color: #e74c3c; text-align: center; font-size: 0.9rem; font-weight: bold;"></p>
-    </section>
+            <div class="grid-dashboard">
+                <div class="card mini-card">
+                    <h3>💼 Minha Carteira</h3>
+                    <p id="valorCarteira" class="valor-destaque">Carregando...</p>
+                </div>
+                <div class="card mini-card">
+                    <h3>🤖 CryptoMind Score</h3>
+                    <p id="score" class="score-destaque">Cálculo...</p>
+                </div>
+            </div>
 
-    <div id="areaCarteira" style="display: none;">
-        <section class="card">
-            <h2>💼 Minha Carteira</h2>
-            <div id="valorCarteira">Carregando...</div>
-        </section>
+            <div class="card">
+                <h2>🔍 Analisador de Sinais com IA</h2>
+                <p class="card-desc">Digite o código de uma criptomoeda para analisar o risco atual de compra/venda.</p>
+                <div class="search-box">
+                    <input type="text" id="buscaAtivo" placeholder="Ex: BTC, ETH, SOL, RACA" style="text-transform: uppercase;">
+                    <button id="btnAnalisar" class="btn-primary">Analisar com IA</button>
+                </div>
+                <div id="resultadoAnalise" class="resultado-analise" style="display: none; margin-top: 20px; padding: 15px; border-radius: 8px; background: rgba(255,255,255,0.03);">
+                    </div>
+            </div>
 
-        <section class="card">
-            <h2>📈 Meus Ativos</h2>
-            <div id="listaAtivos"></div>
-        </section>
+            <div class="card">
+                <h2>📈 Meus Ativos</h2>
+                <div id="listaAtivos">
+                    <p class="loading-text">Buscando ativos no banco de dados...</p>
+                </div>
+            </div>
 
-        <section class="card">
-            <h2>🤖 CryptoMind Score</h2>
-            <div id="score">Cálculo do Score...</div>
         </section>
     </div>
-
-</main>
-
-<footer>
-    CryptoMind AI © 2026
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="app.js"></script>
-
+    <script src="app.js"></script>
 </body>
 </html>
