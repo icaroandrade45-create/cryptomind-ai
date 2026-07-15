@@ -18,6 +18,12 @@ const buscaAtivo = document.getElementById("buscaAtivo");
 const btnAnalisar = document.getElementById("btnAnalisar");
 const resultadoAnalise = document.getElementById("resultadoAnalise");
 
+// Elementos do Consultor de Investimentos
+const capitalInvestir = document.getElementById("capitalInvestir");
+const perfilRisco = document.getElementById("perfilRisco");
+const btnCalcularAlocacao = document.getElementById("btnCalcularAlocacao");
+const resultadoAlocacao = document.getElementById("resultadoAlocacao");
+
 // Elementos de Cadastro de Ativos
 const addNomeAtivo = document.getElementById("addNomeAtivo");
 const addValorAtivo = document.getElementById("addValorAtivo");
@@ -96,11 +102,89 @@ btnSair.addEventListener("click", async () => {
     verificarUsuario();
 });
 
-// MOTOR DE INTELIGÊNCIA ARTIFICIAL E ANÁLISE DE RISCO
+// MOTOR DE ALOCAÇÃO DE CAPITAL INTELIGENTE
+btnCalcularAlocacao.addEventListener("click", async () => {
+    const valor = parseFloat(capitalInvestir.value);
+    const perfil = perfilRisco.value;
+
+    if (isNaN(valor) || valor <= 0) {
+        alert("Por favor, digite um valor de investimento válido maior que zero!");
+        return;
+    }
+
+    resultadoAlocacao.style.display = "block";
+    resultadoAlocacao.innerHTML = "<p>🧠 IA analisando os fundamentos de mercado e montando o teu portfólio...</p>";
+
+    try {
+        const res = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1");
+        if (!res.ok) throw new Error("Erro de conexão com o banco de preços globais.");
+        const dados = await res.json();
+
+        const btc = dados.find(c => c.id === 'bitcoin') || { current_price: 90000, name: "Bitcoin", symbol: "btc" };
+        const eth = dados.find(c => c.id === 'ethereum') || { current_price: 3500, name: "Ethereum", symbol: "eth" };
+        const sol = dados.find(c => c.id === 'solana') || { current_price: 150, name: "Solana", symbol: "sol" };
+        const ada = dados.find(c => c.id === 'cardano') || { current_price: 0.6, name: "Cardano", symbol: "ada" };
+
+        let divisao = [];
+        let justificativa = "";
+
+        if (perfil === "conservador") {
+            divisao = [
+                { moeda: "BTC", percentual: 70, valorAlocado: valor * 0.7, preco: btc.current_price, motivo: "Maior reserva de valor do ecossistema cripto, ideal para tempos de volatilidade." },
+                { moeda: "ETH", percentual: 30, valorAlocado: valor * 0.3, preco: eth.current_price, motivo: "Líder de contratos inteligentes com forte adoção institucional." }
+            ];
+            justificativa = "🛡️ O perfil conservador prioriza a segurança e sobrevivência do portfólio no longo prazo. Focamos 100% no topo do mercado.";
+        } else if (perfil === "moderado") {
+            divisao = [
+                { moeda: "BTC", percentual: 50, valorAlocado: valor * 0.5, preco: btc.current_price, motivo: "Base sólida para garantir liquidez e menor volatilidade geral." },
+                { moeda: "ETH", percentual: 30, valorAlocado: valor * 0.3, preco: eth.current_price, motivo: "Garante exposição à maior infraestrutura descentralizada do mundo." },
+                { moeda: "SOL", percentual: 20, valorAlocado: valor * 0.2, preco: sol.current_price, motivo: "Rede de alta velocidade que vem capturando fatia de mercado considerável." }
+            ];
+            justificativa = "⚖️ O perfil moderado busca o equilíbrio perfeito entre a proteção de capital do BTC e a aceleração de lucros com altcoins estruturadas.";
+        } else {
+            divisao = [
+                { moeda: "BTC", percentual: 30, valorAlocado: valor * 0.3, preco: btc.current_price, motivo: "Reserva de segurança obrigatória da carteira." },
+                { moeda: "ETH", percentual: 20, valorAlocado: valor * 0.2, preco: eth.current_price, motivo: "Participação no coração da Web3." },
+                { moeda: "SOL", percentual: 30, valorAlocado: valor * 0.3, preco: sol.current_price, motivo: "Exposição agressiva à velocidade e dApps em forte expansão." },
+                { moeda: "ADA", percentual: 20, valorAlocado: valor * 0.2, preco: ada.current_price, motivo: "Aposta em recuperação técnica de moedas alternativas consolidadas." }
+            ];
+            justificativa = "⚡ O perfil agressivo acelera a exposição a ecossistemas mais rápidos (L1s) em detrimento da estabilidade. O objetivo é a máxima assimetria de lucros.";
+        }
+
+        let htmlResultado = `
+            <div style="border-left: 4px solid #10b981; padding-left: 15px;">
+                <h3 style="color: #10b981; text-transform: uppercase; margin-bottom: 5px;">Distribuição de Portfolio Recomendada</h3>
+                <p style="font-size: 0.9rem; color: #888; font-style: italic; margin-bottom: 20px;">${justificativa}</p>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+        `;
+
+        divisao.forEach(item => {
+            const quantidadeMoedas = item.valorAlocado / item.preco;
+            htmlResultado += `
+                <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span style="font-size: 1.1rem;"><strong>${item.moeda}</strong> (${item.percentual}%)</span>
+                        <strong style="color: #10b981;">Alocado: US$ ${item.valorAlocado.toFixed(2)}</strong>
+                    </div>
+                    <p style="margin: 3px 0; font-size: 0.85rem; color: #aaa;"><strong>Quantidade estimada:</strong> ${quantidadeMoedas.toFixed(6)} unidades</p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: #888; line-height: 1.3;"><em>"${item.motivo}"</em></p>
+                </div>
+            `;
+        });
+
+        htmlResultado += `</div></div>`;
+        resultadoAlocacao.innerHTML = htmlResultado;
+
+    } catch (erro) {
+        resultadoAlocacao.innerHTML = `<p style="color: #e74c3c;">Erro ao rodar IA: ${erro.message}</p>`;
+    }
+});
+
+// MOTOR DE ANÁLISE DE RISCO INDIVIDUAL
 btnAnalisar.addEventListener("click", async () => {
     const ativo = buscaAtivo.value.trim().toLowerCase();
     if (!ativo) {
-        alert("Por favor, digite o símbolo de uma criptomoeda (Ex: btc, eth, sol)!");
+        alert("Por favor, digite o símbolo de uma criptomoeda!");
         return;
     }
 
@@ -123,7 +207,7 @@ btnAnalisar.addEventListener("click", async () => {
         const idCoin = mapCoins[ativo] || ativo;
 
         const res = await fetch(`https://api.coingecko.com/api/v3/coins/${idCoin}`);
-        if (!res.ok) throw new Error("Ativo não localizado. Tente usar o nome completo em minúsculo (ex: solana).");
+        if (!res.ok) throw new Error("Ativo não localizado. Tente o nome completo.");
         
         const dados = await res.json();
         const precoAtual = dados.market_data.current_price.usd;
@@ -136,31 +220,31 @@ btnAnalisar.addEventListener("click", async () => {
         const scoreRiscoCalculado = Math.min(Math.max(Math.round(50 - (variacao24h * 2.5)), 5), 99);
 
         if (scoreRiscoCalculado >= 75) {
-            statusRisco = "BAIXO RISCO (Zona de Acumulação)";
+            statusRisco = "BAIXO RISCO";
             corStatus = "#10b981"; 
-            acaoRecomendada = "🟢 Ótimo momento para comprar. O ativo está subvalorizado no curto prazo e oferece uma margem de segurança alta.";
+            acaoRecomendada = "🟢 Ótimo momento para comprar.";
         } else if (scoreRiscoCalculado <= 30) {
-            statusRisco = "ALTO RISCO (Zona de Distribuição)";
+            statusRisco = "ALTO RISCO";
             corStatus = "#e74c3c"; 
-            acaoRecomendada = "🔴 Risco elevado de correção. Evite compras no topo histórico. Excelente momento para realizar lucros parciais.";
+            acaoRecomendada = "🔴 Risco elevado de correção.";
         } else {
-            statusRisco = "RISCO MODERADO (Zona Neutra)";
+            statusRisco = "RISCO MODERADO";
             corStatus = "#f59e0b"; 
-            acaoRecomendada = "🟡 Aguarde uma definição de tendência ou faça aportes pequenos (DCA). Não compre em desespero.";
+            acaoRecomendada = "🟡 Aguarde uma definição de tendência.";
         }
 
         resultadoAnalise.innerHTML = `
             <div style="border-left: 4px solid ${corStatus}; padding-left: 15px;">
                 <h3 style="margin-top: 0; color: ${corStatus}; text-transform: uppercase;">${dados.name} (${dados.symbol.toUpperCase()}) - ${statusRisco}</h3>
-                <p><strong>Preço Atual:</strong> US$ ${precoAtual.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                <p><strong>Preço Atual:</strong> US$ ${precoAtual.toLocaleString('en-US')}</p>
                 <p><strong>Variação 24h:</strong> <span style="color: ${variacao24h >= 0 ? '#10b981' : '#e74c3c'}">${variacao24h.toFixed(2)}%</span></p>
-                <p><strong>CryptoMind Score de Entrada:</strong> <strong style="font-size: 1.2rem; color: ${corStatus}">${scoreRiscoCalculado}/100</strong></p>
-                <p style="margin-top: 15px; font-style: italic; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 4px;">${acaoRecomendada}</p>
+                <p><strong>Score CryptoMind:</strong> <strong>${scoreRiscoCalculado}/100</strong></p>
+                <p style="margin-top: 15px; font-style: italic;">${acaoRecomendada}</p>
             </div>
         `;
 
     } catch (erro) {
-        resultadoAnalise.innerHTML = `<p style="color: #e74c3c;">Erro na IA: ${erro.message}</p>`;
+        resultadoAnalise.innerHTML = `<p style="color: #e74c3c;">Erro: ${erro.message}</p>`;
     }
 });
 
@@ -179,12 +263,12 @@ btnSalvarAtivo.addEventListener("click", async () => {
     try {
         const { data: { session } } = await supabaseClient.auth.getSession();
         if (!session) {
-            alert("Sua sessão expirou. Por favor, faça login novamente.");
+            alert("Sessão expirada. Faça login novamente.");
             return;
         }
 
         msgAddAtivo.style.color = "#ffffff";
-        msgAddAtivo.innerText = "Salvando no banco de dados...";
+        msgAddAtivo.innerText = "Salvando...";
 
         const { error } = await supabaseClient
             .from('carteira')
@@ -237,7 +321,7 @@ async function carregarCarteira(userId) {
 
             const keys = Object.keys(ativosAgrupados);
             if (keys.length === 0) {
-                lista.innerHTML = "<p class='loading-text' style='color: #888;'>Você ainda não tem ativos cadastrados. Use o formulário acima para adicionar!</p>";
+                lista.innerHTML = "<p class='loading-text' style='color: #888;'>Nenhum ativo cadastrado.</p>";
             } else {
                 keys.forEach((ativo) => {
                     const valorAtivo = ativosAgrupados[ativo];
@@ -259,17 +343,3 @@ async function carregarCarteira(userId) {
     } catch (erro) { console.error(erro); }
 }
 verificarUsuario();
-async function buscarTopCriptos() {
-
-        const resposta = await fetch(
-                "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false"
-                    );
-
-                        const moedas = await resposta.json();
-
-                            console.log("Top moedas:", moedas);
-
-                            }
-
-                            buscarTopCriptos();
-}
