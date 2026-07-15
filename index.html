@@ -7,25 +7,53 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <header class="topo">
     <h1>🧠 CryptoMind AI</h1>
     <p>Plataforma Inteligente para Análise de Criptomoedas</p>
+    <button id="btnSair" style="display: none; margin: 15px auto; background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">Sair da Conta</button>
 </header>
+
 <main class="container">
-    <section class="card">
-        <h2>💼 Minha Carteira</h2>
-        <div id="valorCarteira">Carregando...</div>
+
+    <section class="card" id="areaAuth">
+        <h2 id="tituloAuth">🔐 Acessar Minha Carteira</h2>
+        
+        <div id="formAuth" style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
+            <input type="email" id="email" placeholder="Seu e-mail" style="padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: #1a1f2c; color: white; width: 100%; box-sizing: border-box;">
+            <input type="password" id="senha" placeholder="Sua senha (mínimo 6 caracteres)" style="padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: #1a1f2c; color: white; width: 100%; box-sizing: border-box;">
+            
+            <button id="btnEntrar" style="padding: 12px; border-radius: 6px; border: none; background: #3b82f6; color: white; font-weight: bold; cursor: pointer;">Entrar</button>
+            <button id="btnCadastrar" style="padding: 12px; border-radius: 6px; border: none; background: #10b981; color: white; font-weight: bold; cursor: pointer;">Criar Nova Conta</button>
+        </div>
+        <p id="msgAuth" style="margin-top: 15px; color: #e74c3c; text-align: center; font-size: 0.9rem; font-weight: bold;"></p>
     </section>
-    <section class="card">
-        <h2>📈 Meus Ativos</h2>
-        <div id="listaAtivos"></div>
-    </section>
-    <section class="card">
-        <h2>🤖 CryptoMind Score</h2>
-        <div id="score">Cálculo do Score...</div>
-    </section>
+
+    <div id="areaCarteira" style="display: none;">
+        <section class="card">
+            <h2>💼 Minha Carteira</h2>
+            <div id="valorCarteira">Carregando...</div>
+        </section>
+
+        <section class="card">
+            <h2>📈 Meus Ativos</h2>
+            <div id="listaAtivos"></div>
+        </section>
+
+        <section class="card">
+            <h2>🤖 CryptoMind Score</h2>
+            <div id="score">Cálculo do Score...</div>
+        </section>
+    </div>
+
 </main>
-<footer>CryptoMind AI © 2026</footer>
+
+<footer>
+    CryptoMind AI © 2026
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="app.js"></script>
+
 </body>
 </html>
