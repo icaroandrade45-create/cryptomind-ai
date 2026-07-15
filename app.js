@@ -1,7 +1,66 @@
 const SUPABASE_URL = "https://ukxylcyenryhzvjlzyaz.supabase.co"; 
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVreHlsY3llbnJ5aHp2amx6eWF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MzEyOTksImV4cCI6MjA5OTIwNzI5OX0.wpU9LQscvrCFqK5vBDrL1nlhZMYer5DA-F6vWyamt6I";
 
-async function carregarCarteira() {
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const areaAuth = document.getElementById("areaAuth");
+const areaCarteira = document.getElementById("areaCarteira");
+const btnSair = document.getElementById("btnSair");
+const btnEntrar = document.getElementById("btnEntrar");
+const btnCadastrar = document.getElementById("btnCadastrar");
+const emailInput = document.getElementById("email");
+const senhaInput = document.getElementById("senha");
+const msgAuth = document.getElementById("msgAuth");
+
+async function verificarUsuario() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+        areaAuth.style.display = "none";
+        areaCarteira.style.display = "block";
+        btnSair.style.display = "block";
+        carregarCarteira(session.user.id);
+    } else {
+        areaAuth.style.display = "block";
+        areaCarteira.style.display = "none";
+        btnSair.style.display = "none";
+    }
+}
+
+btnCadastrar.addEventListener("click", async () => {
+    msgAuth.innerText = "Criando conta...";
+    const { data, error } = await supabase.auth.signUp({
+        email: emailInput.value,
+        password: senhaInput.value,
+    });
+    if (error) {
+        msgAuth.innerText = "Erro: " + error.message;
+    } else {
+        msgAuth.style.color = "#10b981";
+        msgAuth.innerText = "Conta criada! Faça o login agora.";
+    }
+});
+
+btnEntrar.addEventListener("click", async () => {
+    msgAuth.style.color = "#e74c3c";
+    msgAuth.innerText = "Entrando...";
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: emailInput.value,
+        password: senhaInput.value,
+    });
+    if (error) {
+        msgAuth.innerText = "Erro: " + error.message;
+    } else {
+        msgAuth.innerText = "";
+        verificarUsuario();
+    }
+});
+
+btnSair.addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    verificarUsuario();
+});
+
+async function carregarCarteira(userId) {
     try {
         const resposta = await fetch(`${SUPABASE_URL}/rest/v1/carteira?select=*`, {
             headers: {
@@ -9,7 +68,6 @@ async function carregarCarteira() {
                 "Authorization": `Bearer ${SUPABASE_KEY}`
             }
         });
-        if (!resposta.ok) throw new Error("Erro ao conectar");
         const dados = await resposta.json();
         let total = 0;
         const lista = document.getElementById("listaAtivos");
@@ -24,12 +82,8 @@ async function carregarCarteira() {
                     </div>`;
             });
         }
-        const valorCarteiraEl = document.getElementById("valorCarteira");
-        if (valorCarteiraEl) valorCarteiraEl.innerHTML = `US$ ${total.toFixed(2)}`;
-        const scoreEl = document.getElementById("score");
-        if (scoreEl) scoreEl.innerHTML = `${dados.length * 10}/100`;
-    } catch (erro) {
-        console.error(erro);
-    }
+        document.getElementById("valorCarteira").innerHTML = `US$ ${total.toFixed(2)}`;
+        document.getElementById("score").innerHTML = `${dados.length * 10}/100`;
+    } catch (erro) { console.error(erro); }
 }
-carregarCarteira();
+verificarUsuario();
