@@ -1,7 +1,6 @@
 const SUPABASE_URL = "https://ukxylcyenryhzvjlzyaz.supabase.co"; 
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVreHlsY3llbnJ5aHp2amx6eWF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MzEyOTksImV4cCI6MjA5OTIwNzI5OX0.wpU9LQscvrCFqK5vBDrL1nlhZMYer5DA-F6vWyamt6I";
 
-// Mudamos o nome para supabaseClient para evitar conflitos no JavaScript
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const areaAuth = document.getElementById("areaAuth");
@@ -27,29 +26,53 @@ async function verificarUsuario() {
     }
 }
 
+function validarCampos() {
+    const email = emailInput.value.trim();
+    const senha = senhaInput.value;
+
+    if (!email || !senha) {
+        msgAuth.style.color = "#e74c3c";
+        msgAuth.innerText = "Por favor, preencha o e-mail e a senha.";
+        return false;
+    }
+    if (senha.length < 6) {
+        msgAuth.style.color = "#e74c3c";
+        msgAuth.innerText = "A senha deve ter pelo menos 6 caracteres.";
+        return false;
+    }
+    return true;
+}
+
 btnCadastrar.addEventListener("click", async () => {
+    msgAuth.style.color = "#ffffff";
+    if (!validarCampos()) return;
+
     msgAuth.innerText = "A criar conta...";
     const { data, error } = await supabaseClient.auth.signUp({
-        email: emailInput.value,
+        email: emailInput.value.trim(),
         password: senhaInput.value,
     });
     if (error) {
-        msgAuth.innerText = "Erro: " + error.message;
+        msgAuth.style.color = "#e74c3c";
+        msgAuth.innerText = "Erro ao cadastrar: " + error.message;
     } else {
         msgAuth.style.color = "#10b981";
-        msgAuth.innerText = "Conta criada! Faça o login agora.";
+        msgAuth.innerText = "Conta criada com sucesso! Faça o login agora.";
     }
 });
 
 btnEntrar.addEventListener("click", async () => {
-    msgAuth.style.color = "#e74c3c";
+    msgAuth.style.color = "#ffffff";
+    if (!validarCampos()) return;
+
     msgAuth.innerText = "A entrar...";
     const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email: emailInput.value,
+        email: emailInput.value.trim(),
         password: senhaInput.value,
     });
     if (error) {
-        msgAuth.innerText = "Erro: " + error.message;
+        msgAuth.style.color = "#e74c3c";
+        msgAuth.innerText = "Erro ao entrar: " + error.message;
     } else {
         msgAuth.innerText = "";
         verificarUsuario();
@@ -63,7 +86,8 @@ btnSair.addEventListener("click", async () => {
 
 async function carregarCarteira(userId) {
     try {
-        const resposta = await fetch(`${SUPABASE_URL}/rest/v1/carteira?select=*`, {
+        // Correção aplicada aqui: alterado de $() para ${} no SUPABASE_URL
+        const resposta = await fetch(`${SUPABASE_URL}/rest/v1/carteira?select=*&user_id=eq.${userId}`, {
             headers: {
                 "apikey": SUPABASE_KEY,
                 "Authorization": `Bearer ${SUPABASE_KEY}`
