@@ -1,7 +1,8 @@
 const SUPABASE_URL = "https://ukxylcyenryhzvjlzyaz.supabase.co"; 
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVreHlsY3llbnJ5aHp2amx6eWF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MzEyOTksImV4cCI6MjA5OTIwNzI5OX0.wpU9LQscvrCFqK5vBDrL1nlhZMYer5DA-F6vWyamt6I";
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Mudamos o nome para supabaseClient para evitar conflitos no JavaScript
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const areaAuth = document.getElementById("areaAuth");
 const areaCarteira = document.getElementById("areaCarteira");
@@ -13,7 +14,7 @@ const senhaInput = document.getElementById("senha");
 const msgAuth = document.getElementById("msgAuth");
 
 async function verificarUsuario() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
         areaAuth.style.display = "none";
         areaCarteira.style.display = "block";
@@ -27,8 +28,8 @@ async function verificarUsuario() {
 }
 
 btnCadastrar.addEventListener("click", async () => {
-    msgAuth.innerText = "Criando conta...";
-    const { data, error } = await supabase.auth.signUp({
+    msgAuth.innerText = "A criar conta...";
+    const { data, error } = await supabaseClient.auth.signUp({
         email: emailInput.value,
         password: senhaInput.value,
     });
@@ -42,8 +43,8 @@ btnCadastrar.addEventListener("click", async () => {
 
 btnEntrar.addEventListener("click", async () => {
     msgAuth.style.color = "#e74c3c";
-    msgAuth.innerText = "Entrando...";
-    const { data, error } = await supabase.auth.signInWithPassword({
+    msgAuth.innerText = "A entrar...";
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: emailInput.value,
         password: senhaInput.value,
     });
@@ -56,7 +57,7 @@ btnEntrar.addEventListener("click", async () => {
 });
 
 btnSair.addEventListener("click", async () => {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     verificarUsuario();
 });
 
