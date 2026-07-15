@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,8 +54,18 @@
                     <input type="text" id="buscaAtivo" placeholder="Ex: BTC, ETH, SOL, RACA" style="text-transform: uppercase;">
                     <button id="btnAnalisar" class="btn-primary">Analisar com IA</button>
                 </div>
-                <div id="resultadoAnalise" class="resultado-analise" style="display: none; margin-top: 20px; padding: 15px; border-radius: 8px; background: rgba(255,255,255,0.03);">
-                    </div>
+                <div id="resultadoAnalise" class="resultado-analise" style="display: none; margin-top: 20px; padding: 15px; border-radius: 8px; background: rgba(255,255,255,0.03);"></div>
+            </div>
+
+            <div class="card">
+                <h2>➕ Adicionar Ativo à Carteira</h2>
+                <p class="card-desc">Adicione novos investimentos ao seu portfólio.</p>
+                <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                    <input type="text" id="addNomeAtivo" placeholder="Nome (Ex: BTC)" style="flex: 1; padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: #1a1f2c; color: white; text-transform: uppercase; min-width: 120px;">
+                    <input type="number" id="addValorAtivo" placeholder="Valor (US$)" style="flex: 1; padding: 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); background: #1a1f2c; color: white; min-width: 120px;">
+                    <button id="btnSalvarAtivo" class="btn-success" style="padding: 12px 24px; font-weight: bold; border-radius: 6px; border: none; cursor: pointer;">Salvar</button>
+                </div>
+                <p id="msgAddAtivo" style="margin-top: 10px; font-size: 0.9rem; font-weight: bold; text-align: center;"></p>
             </div>
 
             <div class="card">
