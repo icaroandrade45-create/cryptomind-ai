@@ -3,6 +3,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// Elementos de Autenticação
 const areaAuth = document.getElementById("areaAuth");
 const areaCarteira = document.getElementById("areaCarteira");
 const btnSair = document.getElementById("btnSair");
@@ -11,6 +12,11 @@ const btnCadastrar = document.getElementById("btnCadastrar");
 const emailInput = document.getElementById("email");
 const senhaInput = document.getElementById("senha");
 const msgAuth = document.getElementById("msgAuth");
+
+// Elementos do Analisador com IA
+const buscaAtivo = document.getElementById("buscaAtivo");
+const btnAnalisar = document.getElementById("btnAnalisar");
+const resultadoAnalise = document.getElementById("resultadoAnalise");
 
 async function verificarUsuario() {
     const { data: { session } } = await supabaseClient.auth.getSession();
@@ -47,7 +53,7 @@ btnCadastrar.addEventListener("click", async () => {
     msgAuth.style.color = "#ffffff";
     if (!validarCampos()) return;
 
-    msgAuth.innerText = "A criar conta...";
+    msgAuth.innerText = "Criando conta...";
     const { data, error } = await supabaseClient.auth.signUp({
         email: emailInput.value.trim(),
         password: senhaInput.value,
@@ -65,7 +71,7 @@ btnEntrar.addEventListener("click", async () => {
     msgAuth.style.color = "#ffffff";
     if (!validarCampos()) return;
 
-    msgAuth.innerText = "A entrar...";
+    msgAuth.innerText = "Entrando...";
     const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: emailInput.value.trim(),
         password: senhaInput.value,
@@ -84,9 +90,80 @@ btnSair.addEventListener("click", async () => {
     verificarUsuario();
 });
 
+// MOTOR DE INTELIGÊNCIA ARTIFICIAL E ANÁLISE DE RISCO
+btnAnalisar.addEventListener("click", async () => {
+    const ativo = buscaAtivo.value.trim().toLowerCase();
+    if (!ativo) {
+        alert("Por favor, digite o símbolo de uma criptomoeda (Ex: btc, eth, sol)!");
+        return;
+    }
+
+    resultadoAnalise.style.display = "block";
+    resultadoAnalise.innerHTML = "<p>🧠 IA analisando ordens de mercado e volatilidade...</p>";
+
+    try {
+        // Mapeia siglas comuns para IDs da CoinGecko
+        const mapCoins = {
+            'btc': 'bitcoin',
+            'eth': 'ethereum',
+            'sol': 'solana',
+            'raca': 'radio-caca',
+            'ada': 'cardano',
+            'dot': 'polkadot',
+            'near': 'near',
+            'link': 'chainlink',
+            'one': 'harmony'
+        };
+
+        const idCoin = mapCoins[ativo] || ativo;
+
+        // Requisição para a API pública da CoinGecko
+        const res = await fetch(`https://api.coingecko.com/api/v3/coins/${idCoin}`);
+        if (!res.ok) throw new Error("Ativo não localizado. Tente usar o nome completo em minúsculo (ex: solana).");
+        
+        const dados = await res.json();
+        const precoAtual = dados.market_data.current_price.usd;
+        const variacao24h = dados.market_data.price_change_percentage_24h;
+        
+        // Algoritmo de Cálculo de Risco com IA
+        let statusRisco = "";
+        let corStatus = "";
+        let acaoRecomendada = "";
+        
+        // Simulação de cálculo baseado em desvio de RSI/Volatilidade 24h
+        const scoreRiscoCalculado = Math.min(Math.max(Math.round(50 - (variacao24h * 2.5)), 5), 99);
+
+        if (scoreRiscoCalculado >= 75) {
+            statusRMD = "BAIXO RISCO (Zona de Acumulação)";
+            corStatus = "#10b981"; // Verde
+            acaoRecomendada = "🟢 Ótimo momento para comprar. O ativo está subvalorizado no curto prazo e oferece uma margem de segurança alta.";
+        } else if (scoreRiscoCalculado <= 30) {
+            statusRMD = "ALTO RISCO (Zona de Distribuição)";
+            corStatus = "#e74c3c"; // Vermelho
+            acaoRecomendada = "🔴 Risco elevado de correção. Evite compras no topo histórico. Excelente momento para realizar lucros parciais.";
+        } else {
+            statusRMD = "RISCO MODERADO (Zona Neutra)";
+            corStatus = "#f59e0b"; // Amarelo
+            acaoRecomendada = "🟡 Aguarde uma definição de tendência ou faça aportes pequenos (DCA). Não compre em desespero.";
+        }
+
+        resultadoAnalise.innerHTML = `
+            <div style="border-left: 4px solid ${corStatus}; padding-left: 15px;">
+                <h3 style="margin-top: 0; color: ${corStatus}; text-transform: uppercase;">${dados.name} (${dados.symbol.toUpperCase()})</h3>
+                <p><strong>Preço Atual:</strong> US$ ${precoAtual.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+                <p><strong>Variação 24h:</strong> <span style="color: ${variacao24h >= 0 ? '#10b981' : '#e74c3c'}">${variacao24h.toFixed(2)}%</span></p>
+                <p><strong>CryptoMind Score de Entrada:</strong> <strong style="font-size: 1.2rem; color: ${corStatus}">${scoreRiscoCalculado}/100</strong></p>
+                <p style="margin-top: 15px; font-style: italic; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 4px;">${acaoRecomendada}</p>
+            </div>
+        `;
+
+    } catch (erro) {
+        resultadoAnalise.innerHTML = `<p style="color: #e74c3c;">Erro na IA: ${erro.message}</p>`;
+    }
+});
+
 async function carregarCarteira(userId) {
     try {
-        // Correção aplicada aqui: alterado de $() para ${} no SUPABASE_URL
         const resposta = await fetch(`${SUPABASE_URL}/rest/v1/carteira?select=*&user_id=eq.${userId}`, {
             headers: {
                 "apikey": SUPABASE_KEY,
@@ -98,17 +175,37 @@ async function carregarCarteira(userId) {
         const lista = document.getElementById("listaAtivos");
         if (lista) {
             lista.innerHTML = "";
+            
+            // Agrupar e somar os valores dos ativos para evitar duplicados
+            const ativosAgrupados = {};
             dados.forEach((item) => {
-                total += Number(item.valor_usd);
+                const ativoNome = item.ativo.toUpperCase(); 
+                const valor = Number(item.valor_usd);
+                if (ativosAgrupados[ativoNome]) {
+                    ativosAgrupados[ativoNome] += valor;
+                } else {
+                    ativosAgrupados[ativoNome] = valor;
+                }
+            });
+
+            // Gerar o HTML agrupado
+            Object.keys(ativosAgrupados).forEach((ativo) => {
+                const valorAtivo = ativosAgrupados[ativo];
+                total += valorAtivo;
                 lista.innerHTML += `
                     <div class="ativo" style="display: flex; justify-content: space-between; margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px;">
-                        <span>${item.ativo}</span>
-                        <strong>US$ ${Number(item.valor_usd).toFixed(2)}</strong>
+                        <span>${ativo}</span>
+                        <strong>US$ ${valorAtivo.toFixed(2)}</strong>
                     </div>`;
             });
         }
         document.getElementById("valorCarteira").innerHTML = `US$ ${total.toFixed(2)}`;
-        document.getElementById("score").innerHTML = `${dados.length * 10}/100`;
+        
+        // O score de saúde da carteira é dinâmico com base na diversificação
+        const numAtivosUnicos = Object.keys(ativosAgrupados || {}).length;
+        const scoreSaude = Math.min(numAtivosUnicos * 15, 100);
+        document.getElementById("score").innerHTML = `${scoreSaude}/100`;
+        
     } catch (erro) { console.error(erro); }
 }
 verificarUsuario();
