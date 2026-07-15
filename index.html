@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,6 @@
     <title>CryptoMind AI - Plataforma Profissional</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
@@ -16,7 +15,7 @@
                 <h1>CryptoMind AI</h1>
             </div>
             <p class="subtitle">Plataforma Inteligente para Análise de Criptomoedas</p>
-            <button id="btnSair" class="btn-secondary" style="display: none;">Sair da Conta</button>
+            <button id="btnSair" class="btn-secondary" style="display: none;">Sair</button>
         </header>
 
         <section id="areaAuth" class="card auth-card">
@@ -34,74 +33,32 @@
             <p id="msgAuth" class="feedback-msg"></p>
         </section>
 
-        <section id="areaCarteira" style="display: none;">
-            
+        <section id="areaCarteira" class="card" style="display: none;">
             <div class="grid-dashboard">
                 <div class="card mini-card">
-                    <h3>💼 Minha Carteira</h3>
+                    <h3>💳 Minha Carteira</h3>
                     <p id="valorCarteira" class="valor-destaque">US$ 0.00</p>
                 </div>
                 <div class="card mini-card">
-                    <h3>🤖 CryptoMind Score</h3>
-                    <p id="score" class="score-destaque">Cálculo...</p>
+                    <h3>🔮 CryptoWind Score</h3>
+                    <p id="score" class="score-destaque">---</p>
                 </div>
             </div>
 
-            <section class="card">
-                <h2>💰 Consultor de Investimento IA</h2>
-                <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 15px;">Informe quanto quer investir e o seu perfil para receber uma alocação inteligente baseada em dados reais de mercado.</p>
-                <div class="input-group" style="margin-bottom: 15px;">
-                    <label for="capitalInvestir" style="display: block; margin-bottom: 5px; color: #ccc;">Capital para Investir (US$):</label>
-                    <input type="number" id="capitalInvestir" placeholder="Ex: 1000" min="1">
+            <div class="card analisador-box" style="margin-top: 20px;">
+                <h3>🔍 Analisador de Sinais com IA</h3>
+                <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px;">
+                    Insira a sigla ou nome da moeda para calcular as tendências com inteligência artificial.
+                </p>
+                <div class="search-group" style="display: flex; gap: 10px;">
+                    <input type="text" id="buscaAtivo" placeholder="Ex: btc, eth, sol, doge..." style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #111; color: #fff;">
+                    <button id="btnAnalisar" class="btn-primary" style="padding: 10px 20px;">Analisar com IA</button>
                 </div>
-                <div class="input-group" style="margin-bottom: 15px;">
-                    <label for="perfilRisco" style="display: block; margin-bottom: 5px; color: #ccc;">Perfil de Risco:</label>
-                    <select id="perfilRisco" style="width: 100%; padding: 12px; background: #1e1e24; border: 1px solid #333; color: white; border-radius: 6px;">
-                        <option value="conservador">Conservador (Menor volatilidade, foco em BTC/ETH)</option>
-                        <option value="moderado">Moderado (Equilíbrio entre BTC, ETH e L1s como SOL)</option>
-                        <option value="agressivo">Agressivo (Maior foco em Altcoins e potencial de alta)</option>
-                    </select>
-                </div>
-                <button id="btnCalcularAlocacao" class="btn-primary" style="width: 100%;">Gerar Carteira Recomendada por IA</button>
-                <div id="resultadoAlocacao" class="resultado-box" style="display: none; margin-top: 20px; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px;"></div>
-            </section>
-
-            <section class="card">
-                <h2>🔍 Analisador de Sinais com IA</h2>
-                <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 15px;">Digite o código de uma criptomoeda para analisar o risco atual de compra/venda.</p>
-                <div class="input-group" style="display: flex; gap: 10px; margin-bottom: 15px;">
-                    <input type="text" id="buscaAtivo" placeholder="Ex: BTC, ETH, SOL, RACA" style="flex: 1;">
-                    <button id="btnAnalisar" class="btn-primary" style="padding: 12px 20px;">Analisar com IA</button>
-                </div>
-                <div id="resultadoAnalise" class="resultado-box" style="display: none; background: rgba(255,255,255,0.03); padding: 15px; border-radius: 8px;"></div>
-            </section>
-
-            <section class="card">
-                <h2>➕ Adicionar Ativo à Carteira</h2>
-                <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 15px;">Adicione novos investimentos ao seu portfólio.</p>
-                <div class="input-group" style="margin-bottom: 10px;">
-                    <input type="text" id="addNomeAtivo" placeholder="Nome (Ex: BTC)">
-                </div>
-                <div class="input-group" style="margin-bottom: 15px;">
-                    <input type="number" id="addValorAtivo" placeholder="Valor (US$)" min="0.01" step="0.01">
-                </div>
-                <button id="btnSalvarAtivo" class="btn-success" style="width: 100%;">Salvar</button>
-                <p id="msgAddAtivo" class="feedback-msg"></p>
-            </section>
-
-            <section class="card">
-                <h2>📈 Meus Ativos</h2>
-                <div id="listaAtivos">
-                    <p class="loading-text" style="color: #888;">Nenhum ativo cadastrado.</p>
-                </div>
-            </section>
-
+                <div id="resultadoAnalise" style="margin-top: 20px; display: none; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid #222;"></div>
+            </div>
         </section>
     </div>
-    <script src="app.js"></script>
-</body>
-</html>
 
-<script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
