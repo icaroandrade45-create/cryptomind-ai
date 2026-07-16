@@ -15,18 +15,24 @@ const scoreDestaque = document.getElementById('score');
 
 // 1. Verificação do Estado da Sessão ao carregar a página
 document.addEventListener("DOMContentLoaded", async () => {
-    if (!supabase) {
-        console.error("Supabase não foi inicializado no config.js.");
-        return;
-    }
-    
-    // Verifica se já existe um utilizador com sessão ativa
-    const { data: { session }, error } = await supabase.auth.getSession();
-    
-    if (session) {
-        mostrarPainelPrivado(session.user);
-    } else {
-        mostrarAreaLogin();
+    try {
+        if (typeof supabase === 'undefined' || !supabase) {
+            console.error("Supabase não foi inicializado no config.js.");
+            exibirMensagem("Erro: Supabase não configurado no config.js", "erro");
+            return;
+        }
+        
+        // Verifica se já existe um utilizador com sessão ativa
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (session) {
+            mostrarPainelPrivado(session.user);
+        } else {
+            mostrarAreaLogin();
+        }
+    } catch (err) {
+        console.error("Erro ao iniciar sessão:", err);
+        exibirMensagem(`Erro de inicialização: ${err.message || err}`, "erro");
     }
 });
 
@@ -53,7 +59,7 @@ function limparFormularios() {
     msgAuth.className = 'feedback-msg';
 }
 
-// 2. Fluxo de Autenticação Real com Supabase Auth
+// 2. Fluxo de Autenticação Real com Supabase Auth (Protegido com Try/Catch)
 btnCadastrar.addEventListener('click', async () => {
     const email = emailInput.value.trim();
     const password = senhaInput.value.trim();
@@ -65,15 +71,24 @@ btnCadastrar.addEventListener('click', async () => {
 
     exibirMensagem("A cadastrar...", "info");
 
-    const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-    });
+    try {
+        if (typeof supabase === 'undefined' || !supabase) {
+            throw new Error("O objeto 'supabase' não foi carregado. Verifique as chaves no seu config.js!");
+        }
 
-    if (error) {
-        exibirMensagem(`Erro no cadastro: ${error.message}`, "erro");
-    } else {
-        exibirMensagem("Conta criada com sucesso! Faça login para entrar.", "sucesso");
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+        });
+
+        if (error) {
+            exibirMensagem(`Erro no cadastro: ${error.message}`, "erro");
+        } else {
+            exibirMensagem("Conta criada com sucesso! Faça login para entrar.", "sucesso");
+        }
+    } catch (err) {
+        console.error(err);
+        exibirMensagem(`Erro de conexão: ${err.message || err}`, "erro");
     }
 });
 
@@ -88,22 +103,35 @@ btnEntrar.addEventListener('click', async () => {
 
     exibirMensagem("A autenticar...", "info");
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-    });
+    try {
+        if (typeof supabase === 'undefined' || !supabase) {
+            throw new Error("O objeto 'supabase' não foi carregado.");
+        }
 
-    if (error) {
-        exibirMensagem(`Credenciais incorretas ou erro: ${error.message}`, "erro");
-    } else {
-        mostrarPainelPrivado(data.user);
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
+
+        if (error) {
+            exibirMensagem(`Erro: ${error.message}`, "erro");
+        } else {
+            mostrarPainelPrivado(data.user);
+        }
+    } catch (err) {
+        console.error(err);
+        exibirMensagem(`Erro de login: ${err.message || err}`, "erro");
     }
 });
 
 btnSair.addEventListener('click', async () => {
-    const { error } = await supabase.auth.signOut();
-    if (!error) {
-        mostrarAreaLogin();
+    try {
+        const { error } = await supabase.auth.signOut();
+        if (!error) {
+            mostrarAreaLogin();
+        }
+    } catch (err) {
+        console.error(err);
     }
 });
 
@@ -134,15 +162,14 @@ btnAnalisar.addEventListener('click', async () => {
             const nome = coin.name;
             const sigla = coin.symbol.toUpperCase();
 
-            // Algoritmo do CryptoMind Score (0 a 100)
             let scoreCalculado = 50; 
             let recomendacao = "NEUTRO / AGUARDAR";
-            let corRecomendacao = "#f1c40f"; // Amarelo
+            let corRecomendacao = "#f1c40f"; 
 
             if (variacao > 5) {
                 scoreCalculado = Math.min(100, Math.round(50 + (variacao * 4)));
                 recomendacao = "COMPRA FORTE / ALTA TENDÊNCIA";
-                corRecomendacao = "#2ecc71"; // Verde
+                corRecomendacao = "#2ecc71"; 
             } else if (variacao > 1.5) {
                 scoreCalculado = Math.min(85, Math.round(50 + (variacao * 3)));
                 recomendacao = "COMPRA MODERADA / DCA";
@@ -150,14 +177,13 @@ btnAnalisar.addEventListener('click', async () => {
             } else if (variacao < -5) {
                 scoreCalculado = Math.max(0, Math.round(50 + (variacao * 4)));
                 recomendacao = "VENDA / RISCO EXTREMO";
-                corRecomendacao = "#e74c3c"; // Vermelho
+                corRecomendacao = "#e74c3c"; 
             } else if (variacao < -1.5) {
                 scoreCalculado = Math.max(15, Math.round(50 + (variacao * 3)));
                 recomendacao = "AGUARDAR / QUEDA EM ANDAMENTO";
                 corRecomendacao = "#e74c3c";
             }
 
-            // Atualiza os elementos na tela
             scoreDestaque.textContent = `${scoreCalculado}/100`;
             scoreDestaque.style.color = corRecomendacao;
 
@@ -183,9 +209,8 @@ btnAnalisar.addEventListener('click', async () => {
     }
 });
 
-// 4. Funções da Carteira integradas com a tabela do Supabase (para o próximo passo)
+// 4. Funções de Carteira
 async function atualizarCarteiraInterface(userId) {
-    // Por enquanto mostra a carteira vazia, faremos a gravação no próximo passo
     const valorCarteira = document.getElementById('valorCarteira');
     valorCarteira.textContent = "US$ 0.00";
 }
