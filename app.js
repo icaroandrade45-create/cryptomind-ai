@@ -1,5 +1,6 @@
 // 1. Obter a instância global com segurança
-const supabase = window.supabase;
+const supabase = window.supabaseCliente;
+
 
 // Elementos do DOM
 const areaAuth = document.getElementById('areaAuth');
