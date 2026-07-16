@@ -2,66 +2,64 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptoMind AI - Plataforma Profissional</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <div class="logo-area">
-                <span class="logo-emoji">🧠</span>
-                <h1>CryptoMind AI</h1>
-            </div>
-            <p class="subtitle">Plataforma Inteligente para Análise de Criptomoedas</p>
-            <button id="btnSair" class="btn-secondary" style="display: none;">Sair</button>
-        </header>
+        <meta name="viewport" content="width=device-width, initial-scale=device-width, initial-scale=1.0">
+            <title>CryptoMind AI - Plataforma</title>
+                <link rel="stylesheet" href="style.css">
+                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+                    </head>
+                    <body>
+                        <div class="container">
+                                <header>
+                                            <div class="logo-area">
+                                                            <span>Minha Carteira</span>
+                                                                            <h1>CryptoMind AI</h1>
+                                                                                        </div>
+                                                                                                    <p class="subtitle">Plataforma Inteligente de Gestão e Sinais</p>
+                                                                                                                <button id="btnSair" style="display: none;">Sair</button>
+                                                                                                                        </header>
 
-        <section id="areaAuth" class="card auth-card">
-            <h2>🔑 Acessar Minha Carteira</h2>
-            <div class="input-group">
-                <input type="email" id="email" placeholder="Seu e-mail">
-            </div>
-            <div class="input-group">
-                <input type="password" id="senha" placeholder="Sua senha">
-            </div>
-            <div class="button-group">
-                <button id="btnEntrar" class="btn-primary">Entrar</button>
-                <button id="btnCadastrar" class="btn-success">Criar Nova Conta</button>
-            </div>
-            <p id="msgAuth" class="feedback-msg"></p>
-        </section>
+                                                                                                                                <section id="areaAuth" class="card">
+                                                                                                                                            <h2>🔑 Acessar Minha Carteira</h2>
+                                                                                                                                                        <div class="input-group">
+                                                                                                                                                                        <input type="email" id="email" placeholder="O teu e-mail de acesso">
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                                <div class="input-group">
+                                                                                                                                                                                                                <input type="password" id="senha" placeholder="A tua palavra-passe">
+                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                        <div class="button-group">
+                                                                                                                                                                                                                                                        <button id="btnEntrar" class="btn-primary">Entrar</button>
+                                                                                                                                                                                                                                                                        <button id="btnCadastrar" class="btn-secondary">Cadastrar Novo</button>
+                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                <p id="msgAuth" class="feedback-msg"></p>
+                                                                                                                                                                                                                                                                                                        </section>
 
-        <section id="areaCarteira" class="card" style="display: none;">
-            <div class="grid-dashboard">
-                <div class="card mini-card">
-                    <h3>💳 Minha Carteira</h3>
-                    <p id="valorCarteira" class="valor-destaque">US$ 0.00</p>
-                </div>
-                <div class="card mini-card">
-                    <h3>🔮 CryptoMind Score</h3>
-                    <p id="score" class="score-destaque">--/100</p>
-                </div>
-            </div>
-        </section>
+                                                                                                                                                                                                                                                                                                                <section id="areaCarteira" class="card" style="display: none;">
+                                                                                                                                                                                                                                                                                                                            <div class="grid-dashboard">
+                                                                                                                                                                                                                                                                                                                                            <div class="card-mini">
+                                                                                                                                                                                                                                                                                                                                                                <h3>💵 Minha Carteira</h3>
+                                                                                                                                                                                                                                                                                                                                                                                    <p id="valorCarteira">A carregar saldo...</p>
+                                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                    <div class="card-mini">
+                                                                                                                                                                                                                                                                                                                                                                                                                                        <h3>🔮 CryptoMind Score</h3>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <p id="score" class="score-verde">95/100</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </section>
 
-        <section id="areaAnalise" class="card analisador-box" style="margin-top: 20px; display: none;">
-            <h3>🔍 Analisador de Sinais com IA</h3>
-            <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px;">
-                Insira a sigla ou nome da moeda para calcular as tendências com inteligência artificial.
-            </p>
-            <div class="search-group" style="display: flex; gap: 10px;">
-                <input type="text" id="buscaAtivo" placeholder="Ex: btc, eth, sol, doge...">
-                <button id="btnAnalisar" class="btn-primary">Analisar com IA</button>
-            </div>
-            <div id="resultadoAnalise" style="margin-top: 20px; display: none;"></div>
-        </section>
-    </div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="app.js"></script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <section id="areaAnalise" class="card" style="display: none;">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <h3>🔍 Analisador de Sinais AI</h3>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <p style="color: #888; font-size: 0.9rem;">Insira a sigla ou nome da moeda para analisar (Ex: BTC, ETH):</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <div class="search-group">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <input type="text" id="buscaAtivo" placeholder="Ex: BTC">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <button id="btnAnalisar" class="btn-primary">Analisar</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <div id="resultadoAnalise" style="margin-top: 15px;"></div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </section>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
 
-
-</body>
-</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <script src="config.js"></script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <script src="app.js"></script>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </body>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
