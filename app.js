@@ -1,3 +1,4 @@
+cat << 'EOF' > app.js
 // Diagnóstico para sabermos que o script arrancou
 alert("O script app.js carregou com sucesso!");
 
@@ -95,4 +96,5 @@ if (!supabase) {
                                                                                                                                                                                                                                         mostrarAreaLogin();
                                                                                                                                                                                                                                             }
                                                                                                                                                                                                                                             });
+                                                                                                                                                                                                                                            EOF
                                                                                                                                                                                                                                             
