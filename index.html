@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CryptoMind AI - Plataforma Profissional</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -42,24 +41,25 @@
                 </div>
                 <div class="card mini-card">
                     <h3>🔮 CryptoMind Score</h3>
-                    <p id="score" class="score-destaque">---</p>
+                    <p id="score" class="score-destaque">--/100</p>
                 </div>
             </div>
+        </section>
 
-            <div class="card analisador-box" style="margin-top: 20px;">
-                <h3>🔍 Analisador de Sinais com IA</h3>
-                <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px;">
-                    Insira a sigla ou nome da moeda para calcular as tendências com inteligência artificial.
-                </p>
-                <div class="search-group" style="display: flex; gap: 10px;">
-                    <input type="text" id="buscaAtivo" placeholder="Ex: btc, eth, sol, doge..." style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #111; color: #fff;">
-                    <button id="btnAnalisar" class="btn-primary" style="padding: 10px 20px;">Analisar com IA</button>
-                </div>
-                <div id="resultadoAnalise" style="margin-top: 20px; display: none; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid #222;"></div>
+        <section id="areaAnalise" class="card analisador-box" style="margin-top: 20px;">
+            <h3>🔍 Analisador de Sinais com IA</h3>
+            <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px;">
+                Insira a sigla ou nome da moeda para calcular as tendências com inteligência artificial.
+            </p>
+            <div class="search-group" style="display: flex; gap: 10px;">
+                <input type="text" id="buscaAtivo" placeholder="Ex: btc, eth, sol, doge...">
+                <button id="btnAnalisar" class="btn-primary">Analisar com IA</button>
             </div>
+            <div id="resultadoAnalise" style="margin-top: 20px; display: none;"></div>
         </section>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="config.js"></script>
     <script src="app.js"></script>
 </body>
