@@ -1,6 +1,9 @@
 // Configuração do Supabase
-const SUPABASE_URL = "https://ukxylcyenryhzvjlzyaz.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhYmdjOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVreHlsY3llbnJ5aHp2amx6eWF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTU5MDU2OTIsImV4cCI6MjAzMTQ4MTY5Mn0.88V_W6RkHl9Lz7f0HlS3Z8S87pL-8vR6S7_76_y-9sE";
+const SUPABASE_URL = "https://ukxylcyenryhzvjlzyaz.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVreHlsY3llbnJ5aHp2amx6eWF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2MzEyOTksImV4cCI6MjA5OTIwNzI5OX0.wpU9LQscvrCFqK5vBDrL1nlhZMYer5DA-F6vWyamt6I";
 
-// Criamos o cliente numa variável global chamada 'supabaseCliente' para evitar conflitos
-window.supabaseCliente = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+window.supabaseCliente = window.supabase.createClient(
+  SUPABASE_URL,
+    SUPABASE_ANON_KEY
+    );
+
