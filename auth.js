@@ -1,61 +1,37 @@
-// Captura o cliente Supabase injetado globalmente pelo config.js
-const supabase = window.supabaseCliente;
+console.log("Iniciando auth.js...");
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('loginForm');
 
-/**
- * Cadastra um novo usuário no Supabase
- */
-export async function cadastrarUsuario(email, senha) {
-    if (!supabase) throw new Error("Supabase não configurado.");
-    
-    const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: senha
-    });
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Verifica se a variável global existe
+            if (typeof window.supabaseCliente === 'undefined') {
+                console.error("Variável global supabaseCliente não encontrada.");
+                alert('Erro no login: Supabase não configurado.');
+                return;
+            }
 
-    if (error) throw error;
-    return data;
-}
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
 
-/**
- * Realiza o login do usuário
- */
-export async function loginUsuario(email, senha) {
-    if (!supabase) throw new Error("Supabase não configurado.");
+            try {
+                const { data, error } = await window.supabaseCliente.auth.signInWithPassword({
+                    email: email,
+                    password: senha,
+                });
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: senha
-    });
-
-    if (error) throw error;
-    return data;
-}
-
-/**
- * Faz o logout do usuário
- */
-export async function logoutUsuario() {
-    if (!supabase) throw new Error("Supabase não configurado.");
-
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-}
-
-/**
- * Verifica se existe uma sessão ativa e monitora mudanças de estado (login/logout)
- */
-export function observarSessao(callback) {
-    if (!supabase) return;
-
-    // Verifica o estado atual imediatamente
-    supabase.auth.getSession().then(({ data: { session } }) => {
-        callback(session);
-    });
-
-    // Escuta mudanças futuras
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-        callback(session);
-    });
-
-    return subscription;
-}
+                if (error) {
+                    alert('Erro no login: ' + error.message);
+                } else {
+                    alert('Login realizado com sucesso!');
+                }
+            } catch (err) {
+                alert('Erro inesperado: ' + err.message);
+            }
+        });
+    } else {
+        console.error("Formulário de login não encontrado.");
+    }
+});
