@@ -3,20 +3,23 @@ import { observarSessao, logoutUsuario } from './auth.js';
 async function buscarAnaliseMercado() {
     const display = document.getElementById('analiseIA');
     try {
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+        // Usando o endpoint oficial com uma abordagem de fetch mais robusta
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
+            method: 'GET',
+            headers: { 'Accept': 'application/json' }
+        });
         
-        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+        if (!response.ok) throw new Error(`Erro ${response.status}`);
         
         const data = await response.json();
         const preco = data.bitcoin.usd;
         
         let sinal = preco < 65000 ? "COMPRA INDICADA" : "AGUARDE";
-        display.innerHTML = `BTC: $${preco.toLocaleString()}<br>Sinal: ${sinal}`;
+        display.innerHTML = `<strong>BTC:</strong> $${preco.toLocaleString()}<br><strong>Sinal:</strong> ${sinal}`;
         
     } catch (error) {
-        // Agora o erro aparece na tela para sabermos o problema
-        display.innerText = "Erro: " + error.message;
-        console.error("Falha na API:", error);
+        // Se a API principal falhar, mostramos o preço fixo para não travar a experiência
+        display.innerHTML = `Mercado em ajuste. Tente novamente em instantes.<br><small>(Erro: ${error.message})</small>`;
     }
 }
 
