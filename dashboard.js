@@ -3,23 +3,19 @@ import { observarSessao, logoutUsuario } from './auth.js';
 async function buscarAnaliseMercado() {
     const display = document.getElementById('analiseIA');
     try {
-        // Usando o endpoint oficial com uma abordagem de fetch mais robusta
-        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', {
-            method: 'GET',
-            headers: { 'Accept': 'application/json' }
-        });
+        // Mudando para a API da Binance, que é extremamente rápida e amigável ao navegador
+        const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT');
         
-        if (!response.ok) throw new Error(`Erro ${response.status}`);
+        if (!response.ok) throw new Error("Erro na API Binance");
         
         const data = await response.json();
-        const preco = data.bitcoin.usd;
+        const preco = parseFloat(data.price);
         
         let sinal = preco < 65000 ? "COMPRA INDICADA" : "AGUARDE";
-        display.innerHTML = `<strong>BTC:</strong> $${preco.toLocaleString()}<br><strong>Sinal:</strong> ${sinal}`;
-        
+        display.innerHTML = `<strong>Bitcoin (BTC):</strong> $${preco.toLocaleString(undefined, {minimumFractionDigits: 2})}<br><br>
+                             <strong>Sinal da IA:</strong> ${sinal}`;
     } catch (error) {
-        // Se a API principal falhar, mostramos o preço fixo para não travar a experiência
-        display.innerHTML = `Mercado em ajuste. Tente novamente em instantes.<br><small>(Erro: ${error.message})</small>`;
+        display.innerHTML = `Erro de conexão. Tente novamente.<br><small>${error.message}</small>`;
     }
 }
 
