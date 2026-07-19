@@ -2,26 +2,35 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-        <title>CryptoMind AI</title>
-            <link rel="stylesheet" href="style.css">
-            </head>
-            <body>
-                <!-- Login Container -->
-                    <div id="login-container" class="container">
-                            <h1>CryptoMind AI</h1>
-                                    <input type="email" id="email" placeholder="E-mail">
-                                            <input type="password" id="senha" placeholder="Senha">
-                                                    <button id="btnLogin">Conectando...</button>
-                                                        </div>
+        <title>CryptoMind AI - Sistema</title>
+            <style>
+                    body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+                            .container { background: #1e293b; padding: 2rem; border-radius: 10px; text-align: center; }
+                                    input { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+                                            button { background: #ef4444; color: white; border: none; padding: 10px 20px; cursor: pointer; }
+                                                </style>
+                                                </head>
+                                                <body>
 
-                                                            <!-- Dashboard Container (fica invisível inicialmente) -->
-                                                                <div id="dashboard-container" class="container" style="display: none;">
-                                                                        <h1>Dashboard CryptoMind</h1>
-                                                                                <div id="market-data">Análise: Carregando sinal da IA...</div>
-                                                                                        <button id="btnLogout">Sair</button>
-                                                                                            </div>
+                                                    <div id="login-container" class="container">
+                                                            <h1>CryptoMind AI</h1>
+                                                                    <input type="email" id="email" placeholder="E-mail">
+                                                                            <input type="password" id="senha" placeholder="Senha">
+                                                                                    <button id="btnClick">Entrar Agora</button>
+                                                                                        </div>
 
-                                                                                                <script type="module" src="index.js"></script>
-                                                                                                </body>
-                                                                                                </html>
-                                                                                                
+                                                                                            <div id="dashboard-container" class="container" style="display: none;">
+                                                                                                    <h1>Dashboard Ativo</h1>
+                                                                                                            <p>Conexão com IA estabelecida.</p>
+                                                                                                                </div>
+
+                                                                                                                    <script>
+                                                                                                                            document.getElementById('btnClick').addEventListener('click', function() {
+                                                                                                                                        document.getElementById('login-container').style.display = 'none';
+                                                                                                                                                    document.getElementById('dashboard-container').style.display = 'block';
+                                                                                                                                                                console.log("Interface trocada via script interno.");
+                                                                                                                                                                        });
+                                                                                                                                                                            </script>
+                                                                                                                                                                            </body>
+                                                                                                                                                                            </html>
+                                                                                                                                                                            
