@@ -7,7 +7,8 @@ document.getElementById('btnLogin').addEventListener('click', async () => {
     try {
         await fazerLogin(email, senha);
         alert("Login realizado com sucesso!");
-        window.location.assign('dashboard.html');
+        // Redirecionamento forçado via location.href
+        window.location.href = 'dashboard.html';
     } catch (error) {
         alert("Erro no login: " + error.message);
     }
