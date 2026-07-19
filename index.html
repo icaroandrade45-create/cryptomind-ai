@@ -2,17 +2,26 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>CryptoMind AI</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>CryptoMind AI</h1>
-        <input type="email" id="email" placeholder="E-mail">
-        <input type="password" id="senha" placeholder="Senha">
-        <button id="btnLogin">Conectando...</button>
-        <button id="btnCadastrar">Cadastrar-se</button>
-    </div>
-    <script type="module" src="index.js"></script>
-</body>
-</html>
+        <title>CryptoMind AI</title>
+            <link rel="stylesheet" href="style.css">
+            </head>
+            <body>
+                <!-- Login Container -->
+                    <div id="login-container" class="container">
+                            <h1>CryptoMind AI</h1>
+                                    <input type="email" id="email" placeholder="E-mail">
+                                            <input type="password" id="senha" placeholder="Senha">
+                                                    <button id="btnLogin">Conectando...</button>
+                                                        </div>
+
+                                                            <!-- Dashboard Container (fica invisível inicialmente) -->
+                                                                <div id="dashboard-container" class="container" style="display: none;">
+                                                                        <h1>Dashboard CryptoMind</h1>
+                                                                                <div id="market-data">Análise: Carregando sinal da IA...</div>
+                                                                                        <button id="btnLogout">Sair</button>
+                                                                                            </div>
+
+                                                                                                <script type="module" src="index.js"></script>
+                                                                                                </body>
+                                                                                                </html>
+                                                                                                
