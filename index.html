@@ -1,39 +1,25 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-        <title>CryptoMind AI</title>
-        </head>
-        <body>
-            <div id="login-container">
-                    <input type="email" id="email" placeholder="E-mail">
-                            <input type="password" id="senha" placeholder="Senha">
-                                    <button id="btnLogin">Entrar</button>
-                                        </div>
+    <script type="module">
+                import { fazerLogin } from './auth.js';
+                        import { carregarScanner } from './scanner.js';
 
-                                            <div id="dashboard-container" style="display: none;">
-                                                    <h1>Dashboard Ativo</h1>
-                                                            <p>Conexão com IA estabelecida.</p>
-                                                                </div>
+                                document.getElementById('btnLogin').addEventListener('click', async () => {
+                                            const email = document.getElementById('email').value;
+                                                        const senha = document.getElementById('senha').value;
+                                                                    const btn = document.getElementById('btnLogin');
 
-                                                                    <script type="module">
-                                                                            import { fazerLogin } from './auth.js';
-
-                                                                                    document.getElementById('btnLogin').addEventListener('click', async () => {
-                                                                                                const email = document.getElementById('email').value;
-                                                                                                            const senha = document.getElementById('senha').value;
-                                                                                                                        const btn = document.getElementById('btnLogin');
-
-                                                                                                                                    btn.innerText = "Conectando...";
-                                                                                                                                                try {
-                                                                                                                                                                await fazerLogin(email, senha);
-                                                                                                                                                                                document.getElementById('login-container').style.display = 'none';
-                                                                                                                                                                                                document.getElementById('dashboard-container').style.display = 'block';
-                                                                                                                                                                                                            } catch (err) {
-                                                                                                                                                                                                                            alert("Erro ao logar: " + err.message);
-                                                                                                                                                                                                                                            btn.innerText = "Entrar";
-                                                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                                                                });
-                                                                                                                                                                                                                                                                    </script>
-                                                                                                                                                                                                                                                                    </body>
-                                                                                                                                                                                                                                                                    </html>
+                                                                                btn.innerText = "Conectando...";
+                                                                                            try {
+                                                                                                            await fazerLogin(email, senha);
+                                                                                                                            document.getElementById('login-container').style.display = 'none';
+                                                                                                                                            document.getElementById('dashboard-container').style.display = 'block';
+                                                                                                                                                            
+                                                                                                                                                                            // Inicializa o conteúdo do scanner
+                                                                                                                                                                                            carregarScanner();
+                                                                                                                                                                                                            
+                                                                                                                                                                                                                        } catch (err) {
+                                                                                                                                                                                                                                        alert("Erro ao logar: " + err.message);
+                                                                                                                                                                                                                                                        btn.innerText = "Entrar";
+                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                            });
+                                                                                                                                                                                                                                                                                </script>
+                                                                                                                                                                                                                                                                                
