@@ -1,15 +1,98 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
+// CryptoMind AI
+// auth.js
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+import { supabase } from './config.js';
+
+
+
 
 export async function fazerLogin(email, senha) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-            email: email,
-                    password: senha,
-                        });
-                            
-                                if (error) throw error;
-                                    return data;
-                                    }
-                                    
+
+
+    const { data, error } =
+        await supabase.auth.signInWithPassword({
+
+                email,
+
+                        password: senha
+
+                            });
+
+
+
+                                if(error){
+
+                                        throw error;
+
+                                            }
+
+
+                                                return data;
+
+                                                }
+
+
+
+
+
+                                                export async function logout(){
+
+
+                                                    const { error } =
+                                                        await supabase.auth.signOut();
+
+
+
+                                                            if(error){
+
+                                                                    throw error;
+
+                                                                        }
+
+                                                                        }
+
+
+
+
+
+                                                                        export async function obterUsuarioAtual(){
+
+
+                                                                            const {
+
+                                                                                    data:{
+                                                                                                user
+
+                                                                                                        }
+
+                                                                                                            } = await supabase.auth.getUser();
+
+
+
+                                                                                                                return user;
+
+                                                                                                                }
+
+
+
+
+
+
+                                                                                                                export async function obterSessao(){
+
+
+                                                                                                                    const {
+
+                                                                                                                            data:{
+                                                                                                                                        session
+
+                                                                                                                                                }
+
+                                                                                                                                                    } = await supabase.auth.getSession();
+
+
+
+                                                                                                                                                        return session;
+
+                                                                                                                                                        }
