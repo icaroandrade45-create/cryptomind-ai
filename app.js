@@ -1,4 +1,4 @@
-// CryptoMind AI
+console.log("CryptoMind AI app carregado");
 // app.js - Controlador principal da aplicação
 
 
