@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+        <title>CryptoMind</title>
+            <style>
+                    body { font-family: sans-serif; padding: 20px; }
+                            #dashboard-container { display: none; }
+                                </style>
+                                </head>
+                                <body>
+
+                                    <!-- Container de Login -->
+                                        <div id="login-container">
+                                                <h2>Login</h2>
+                                                        <input type="email" id="email" placeholder="Email">
+                                                                <input type="password" id="senha" placeholder="Senha">
+                                                                        <button id="btnLogin">Entrar</button>
+                                                                            </div>
+
+                                                                                <!-- Container do Dashboard -->
+                                                                                    <div id="dashboard-container">
+                                                                                            <h1>Dashboard Carregado!</h1>
+                                                                                                    <p>O scanner está funcionando.</p>
+                                                                                                        </div>
+
+                                                                                                            <script>
+                                                                                                                    document.getElementById('btnLogin').addEventListener('click', () => {
+                                                                                                                                    document.getElementById('login-container').style.display = 'none';
+                                                                                                                                                document.getElementById('dashboard-container').style.display = 'block';
+                                                                                                                                                            console.log("Login forçado realizado.");
+                                                                                                                    });
+                                                                                                                        </script>
+                                                                                                                        </body>
+                                                                                                                        </html>
+                                                                                                                        
+                                                                                                                    })
