@@ -1,98 +1,50 @@
-// CryptoMind AI
-// auth.js
+import { supabase } from './supabaseClient.js';
 
+export async function login(email, senha){
+    const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+                    password: senha
+                        });
 
-import { supabase } from './config.js';
+                            if(error){
+                                    throw error;
+                                        }
 
-
-
-
-export async function fazerLogin(email, senha) {
-
-
-    const { data, error } =
-        await supabase.auth.signInWithPassword({
-
-                email,
-
-                        password: senha
-
-                            });
-
-
-
-                                if(error){
-
-                                        throw error;
-
+                                            return data;
                                             }
 
 
-                                                return data;
+                                            export async function obterUsuarioAtual(){
+                                                const {
+                                                        data: {
+                                                                    user
+                                                                            }
+                                                                                } = await supabase.auth.getUser();
 
-                                                }
-
-
-
-
-
-                                                export async function logout(){
-
-
-                                                    const { error } =
-                                                        await supabase.auth.signOut();
+                                                                                    return user;
+                                                                                    }
 
 
+                                                                                    export async function obterSessao(){
+                                                                                        const {
+                                                                                                data: {
+                                                                                                            session
+                                                                                                                    }
+                                                                                                                        } = await supabase.auth.getSession();
 
-                                                            if(error){
-
-                                                                    throw error;
-
-                                                                        }
-
-                                                                        }
-
-
-
+                                                                                                                            return session;
+                                                                                                                            }
 
 
-                                                                        export async function obterUsuarioAtual(){
+                                                                                                                            export async function verificarSessao(){
 
+                                                                                                                                const session = await obterSessao();
 
-                                                                            const {
-
-                                                                                    data:{
-                                                                                                user
-
-                                                                                                        }
-
-                                                                                                            } = await supabase.auth.getUser();
-
-
-
-                                                                                                                return user;
-
-                                                                                                                }
-
-
-
-
-
-
-                                                                                                                export async function obterSessao(){
-
-
-                                                                                                                    const {
-
-                                                                                                                            data:{
-                                                                                                                                        session
-
-                                                                                                                                                }
-
-                                                                                                                                                    } = await supabase.auth.getSession();
-
-
-
-                                                                                                                                                        return session;
-
+                                                                                                                                    if(session){
+                                                                                                                                            console.log("Usuário logado:", session.user.email);
+                                                                                                                                                    return session;
                                                                                                                                                         }
+
+                                                                                                                                                            console.log("Nenhum usuário logado");
+                                                                                                                                                                return null;
+                                                                                                                                                                }
