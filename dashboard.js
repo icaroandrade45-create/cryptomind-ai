@@ -1,20 +1,29 @@
-import { logout, obterSessao } from "./auth.js";
+import { obterSessao, logout } from "./auth.js";
 
-const botaoLogout = document.getElementById("logoutBtn");
+async function iniciarDashboard() {
+    try {
+            const sessao = await obterSessao();
 
-// Verifica se o usuário está logado
-const sessao = await obterSessao();
+                    if (!sessao) {
+                                window.location.href = "index.html";
+                                            return;
+                                                    }
 
-if (!sessao) {
-    window.location.href = "index.html";
-    }
+                                                            const botaoLogout = document.getElementById("logoutBtn");
 
-    // Logout
-    botaoLogout.addEventListener("click", async () => {
-        try {
-                await logout();
-                        window.location.href = "index.html";
-                            } catch (error) {
-                                    alert(error.message);
-                                        }
-                                        });
+                                                                    botaoLogout.addEventListener("click", async () => {
+                                                                                try {
+                                                                                                await logout();
+                                                                                                                window.location.href = "index.html";
+                                                                                                                            } catch (error) {
+                                                                                                                                            alert(error.message);
+                                                                                                                                                        }
+                                                                                                                                                                });
+
+                                                                                                                                                                    } catch (error) {
+                                                                                                                                                                            console.error("Erro ao iniciar dashboard:", error);
+                                                                                                                                                                                    window.location.href = "index.html";
+                                                                                                                                                                                        }
+                                                                                                                                                                                        }
+
+                                                                                                                                                                                        iniciarDashboard();

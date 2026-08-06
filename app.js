@@ -1,55 +1,64 @@
 import { fazerLogin, cadastrar } from "./auth.js";
 
-const form = document.getElementById("loginForm");
+const loginForm = document.getElementById("loginForm");
 const emailInput = document.getElementById("email");
 const senhaInput = document.getElementById("senha");
 const cadastroBtn = document.getElementById("cadastroBtn");
 const mensagem = document.getElementById("mensagem");
 
-// LOGIN
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+function mostrarMensagem(texto, erro = false) {
+    mensagem.textContent = texto;
+        mensagem.style.color = erro ? "#ff4d4f" : "#22c55e";
+        }
 
-        const email = emailInput.value.trim();
-            const senha = senhaInput.value;
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
 
-                try {
-                        await fazerLogin(email, senha);
+                const email = emailInput.value.trim();
+                    const senha = senhaInput.value;
 
-                                mensagem.style.color = "#00ff88";
-                                        mensagem.textContent = "Login realizado com sucesso!";
+                        if (!email || !senha) {
+                                mostrarMensagem("Preencha e-mail e senha.", true);
+                                        return;
+                                            }
 
-                                                setTimeout(() => {
-                                                            window.location.href = "dashboard.html";
-                                                                    }, 1000);
+                                                try {
+                                                        mostrarMensagem("Entrando...");
 
-                                                                        } catch (error) {
-                                                                                mensagem.style.color = "#ff5555";
-                                                                                        mensagem.textContent = error.message;
-                                                                                            }
-                                                                                            });
+                                                                await fazerLogin(email, senha);
 
-                                                                                            // CADASTRO
-                                                                                            cadastroBtn.addEventListener("click", async () => {
+                                                                        mostrarMensagem("Login realizado com sucesso!");
 
-                                                                                                const email = emailInput.value.trim();
-                                                                                                    const senha = senhaInput.value;
+                                                                                setTimeout(() => {
+                                                                                            window.location.href = "dashboard.html";
+                                                                                                    }, 800);
 
-                                                                                                        if (!email || !senha) {
-                                                                                                                mensagem.style.color = "#ff5555";
-                                                                                                                        mensagem.textContent = "Informe e-mail e senha.";
-                                                                                                                                return;
-                                                                                                                                    }
+                                                                                                        } catch (error) {
+                                                                                                                mostrarMensagem(error.message, true);
+                                                                                                                    }
+                                                                                                                    });
 
-                                                                                                                                        try {
-                                                                                                                                                await cadastrar(email, senha);
+                                                                                                                    cadastroBtn.addEventListener("click", async () => {
 
-                                                                                                                                                        mensagem.style.color = "#00ff88";
-                                                                                                                                                                mensagem.textContent = "Cadastro realizado! Verifique seu e-mail para confirmar a conta.";
+                                                                                                                        const email = emailInput.value.trim();
+                                                                                                                            const senha = senhaInput.value;
 
-                                                                                                                                                                    } catch (error) {
-                                                                                                                                                                            mensagem.style.color = "#ff5555";
-                                                                                                                                                                                    mensagem.textContent = error.message;
-                                                                                                                                                                                        }
+                                                                                                                                if (!email || !senha) {
+                                                                                                                                        mostrarMensagem("Preencha e-mail e senha.", true);
+                                                                                                                                                return;
+                                                                                                                                                    }
 
-                                                                                                                                                                                        });
+                                                                                                                                                        try {
+                                                                                                                                                                mostrarMensagem("Criando conta...");
+
+                                                                                                                                                                        await cadastrar(email, senha);
+
+                                                                                                                                                                                mostrarMensagem(
+                                                                                                                                                                                            "Conta criada! Verifique seu e-mail para confirmar o cadastro."
+                                                                                                                                                                                                    );
+
+                                                                                                                                                                                                        } catch (error) {
+                                                                                                                                                                                                                mostrarMensagem(error.message, true);
+                                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                                    });
